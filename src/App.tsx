@@ -1,8 +1,8 @@
+import React from "react"
+import {LoggedOutRouter} from "./routers/logged-out-router"
 
 function App() {
-  return <div className="bg-black">
-      <h2>Hello Tailwind</h2>
-    </div>
+  return <LoggedOutRouter/>
   
 }
 
