@@ -2,9 +2,10 @@ import React from "react";
 import { FormError } from "../components/form-error"
 import { useForm } from "react-hook-form";
 import { gql, useMutation } from "@apollo/client";
+import { LoginMutation, LoginMutationVariables } from "../__generated__/LoginMutation"
 
 const LOGIN_MUTATION = gql`
-    mutation PotatoMutation($email: String!, $password:String!) {
+    mutation LoginMutation($email: String!, $password:String!) {
         login(input: {
             email:$email,
             password:$password
@@ -23,7 +24,7 @@ interface ILoginForm {
 
 export const Login = () => {
     const {register, getValues, errors, handleSubmit} = useForm<ILoginForm>()
-    const [loginMutation, {loading,error,data}] = useMutation(LOGIN_MUTATION)
+    const [loginMutation, {loading,error,data}] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_MUTATION)
     const onSubmit = () => {
         const {email, password} = getValues()
         loginMutation({
