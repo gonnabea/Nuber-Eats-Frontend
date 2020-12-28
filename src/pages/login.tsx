@@ -27,19 +27,21 @@ export const Login = () => {
             console.log(token)
         }
     }
-    const [loginMutation, {data: loginMutationResult }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_MUTATION, {
+    const [loginMutation, {data: loginMutationResult, loading }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_MUTATION, {
         onCompleted
     })
     const onSubmit = () => {
-        const {email, password} = getValues()
-        loginMutation({
-            variables: {
-                loginInput:{
-                    email,
-                    password
+        if(!loading){
+            const {email, password} = getValues()
+            loginMutation({
+                variables: {
+                    loginInput:{
+                        email,
+                        password
+                    }
                 }
-            }
-        })
+            })
+        }
     }
     return <span className="h-screen flex items-center justify-center bg-gray-800">
         <div className="bg-white w-full max-w-lg pt-10 pb-5 rounded-lg text-center">
@@ -51,7 +53,7 @@ export const Login = () => {
                 {errors.password?.message && <FormError errorMessage={errors.password?.message}/>}
                 {errors.password?.type === "minLength" && <FormError errorMessage="Password must be more than 3 chars."/>}
             <button className="btn mt-3">
-                Log In
+                {loading ? "Loading..." : "Log In"}
             </button>
             {loginMutationResult?.login.error && <FormError errorMessage={loginMutationResult.login.error}/>}
             </form>
